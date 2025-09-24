@@ -4,9 +4,36 @@ import User from '../models/userModel.js';
 // Import helper function to generate JWT token
 import { generateToken } from '../utils/generateJWT.js';
 
+// Import Joi for data validation
+import Joi from 'joi';
+
+// ====================== VALIDATION SCHEMAS ======================
+// Signup validation schema
+const signupSchema = Joi.object({
+    name: Joi.string().min(2).max(50).required(),
+    email: Joi.string().email().required(),
+    phonenumber: Joi.string().pattern(/^[0-9]{10,15}$/).required(), // only digits, 10–15 chars
+    password: Joi.string().min(6).required()
+});
+
+// Login validation schema
+const loginSchema = Joi.object({
+    email: Joi.string().email().required(),
+    password: Joi.string().min(6).required()
+});
+
 // ====================== SIGNUP ======================
 export const signup = async (req, res) => {
     try {
+        // Validate request body against Joi schema
+        const { error } = signupSchema.validate(req.body, { abortEarly: false });
+        if (error) {
+            return res.status(400).json({
+                message: "Validation failed",
+                details: error.details.map(d => d.message)
+            });
+        }
+
         const { name, email, phonenumber, password } = req.body;
 
         // Check if user already exists
@@ -31,6 +58,15 @@ export const signup = async (req, res) => {
 // ====================== LOGIN ======================
 export const login = async (req, res) => {
     try {
+        // Validate request body against Joi schema
+        const { error } = loginSchema.validate(req.body, { abortEarly: false });
+        if (error) {
+            return res.status(400).json({
+                message: "Validation failed",
+                details: error.details.map(d => d.message)
+            });
+        }
+
         const { email, password } = req.body;
 
         // Find user by email
