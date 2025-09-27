@@ -64,12 +64,11 @@ const swaggerSpec = swaggerJsdoc(options);
 // Function to Setup Swagger UI
 // ============================
 // Call this function in server.js / index.js to mount Swagger docs
-function swaggerDocs(app) {
+export default function swaggerDocs(app) {
   // Route to access Swagger UI (e.g., https://job-finder-app-backend-7m5k.onrender.com/api-docs)
   app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
-  console.log("Swagger docs available at https://job-finder-app-backend-7m5k.onrender.com/api-docs");
+  console.log(
+    "Swagger docs available at https://job-finder-app-backend-7m5k.onrender.com/api-docs"
+  );
 }
-
-// Export function so it can be used in server.js
-module.exports = swaggerDocs;
