@@ -3,8 +3,8 @@
 // ============================
 
 // Use ES module imports
-import swaggerJsdoc from "swagger-jsdoc";
-import swaggerUi from "swagger-ui-express";
+import swaggerJsdoc from "swagger-jsdoc";   // Generates OpenAPI specification from JSDoc comments
+import swaggerUi from "swagger-ui-express"; // Provides interactive Swagger UI
 
 // ============================
 // Swagger Options Configuration
@@ -13,9 +13,9 @@ const options = {
   definition: {
     openapi: "3.0.0",
     info: {
-      title: "My API Docs",
+      title: "Job Finder API Docs",          // Matches your app
       version: "1.0.0",
-      description: "API documentation for my Express app",
+      description: "API documentation for Job Finder backend",
     },
     servers: [
       {
@@ -38,18 +38,25 @@ const options = {
     },
     security: [
       {
-        bearerAuth: [],
+        bearerAuth: [], // applied globally; your /auth/login and /auth/signup won't require it automatically
       },
     ],
   },
-  apis: ["./routes/*.js"],
+  // ============================
+  // Path to your route files for Swagger annotations
+  // ============================
+  apis: ["./routes/*.js"],  // your authRoutes.js annotations will be read
 };
 
 // Generate Swagger specification
 const swaggerSpec = swaggerJsdoc(options);
 
-// Export default function for ES module import
+// ============================
+// Export default function to setup Swagger UI
+// ============================
 export default function swaggerDocs(app) {
   app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
-  console.log("Swagger docs available at https://job-finder-app-backend-7m5k.onrender.com/api-docs");
+  console.log(
+    "Swagger docs available at https://job-finder-app-backend-7m5k.onrender.com/api-docs"
+  );
 }

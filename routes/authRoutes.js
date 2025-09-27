@@ -1,6 +1,6 @@
-import express from 'express';                 // Import Express
-import { signup, login } from '../controllers/authController.js'; // Import controller functions
-import authMiddleware from '../middleware/authMiddleware.js';    // Import middleware (for protected routes)
+import express from 'express';                 
+import { signup, login } from '../controllers/authController.js'; 
+import authMiddleware from '../middleware/authMiddleware.js';    
 
 const router = express.Router(); // Create a new router instance
 
@@ -34,16 +34,16 @@ const router = express.Router(); // Create a new router instance
  *               password:
  *                 type: string
  *                 example: password123
- *               phone:
+ *               phonenumber:
  *                 type: string
  *                 example: +2348012345678
  *     responses:
  *       201:
  *         description: User registered successfully
  *       400:
- *         description: Invalid request data
+ *         description: Validation failed or user already exists
  */
-router.post('/signup', signup);  // Route for user signup
+router.post('/signup', signup);  
 
 /**
  * @openapi
@@ -71,10 +71,10 @@ router.post('/signup', signup);  // Route for user signup
  *     responses:
  *       200:
  *         description: Login successful
- *       401:
- *         description: Invalid credentials
+ *       400:
+ *         description: Validation failed or invalid email/password
  */
-router.post('/login', login);    // Route for user login
+router.post('/login', login);    
 
 // ========================
 // Example protected route
