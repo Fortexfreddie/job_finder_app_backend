@@ -2,73 +2,54 @@
 // Swagger Setup (swagger.js)
 // ============================
 
-// Import required packages for Swagger
-const swaggerJsdoc = require("swagger-jsdoc");       // Generates OpenAPI specification from JSDoc comments
-const swaggerUi = require("swagger-ui-express");     // Provides interactive Swagger UI
+// Use ES module imports
+import swaggerJsdoc from "swagger-jsdoc";
+import swaggerUi from "swagger-ui-express";
 
 // ============================
 // Swagger Options Configuration
 // ============================
 const options = {
   definition: {
-    openapi: "3.0.0", // OpenAPI version (3.0 is most common for modern APIs)
-
+    openapi: "3.0.0",
     info: {
-      title: "My API Docs",          // Title displayed in Swagger UI
-      version: "1.0.0",              // Version of your API
-      description: "API documentation for my Express app", // Short description
+      title: "My API Docs",
+      version: "1.0.0",
+      description: "API documentation for my Express app",
     },
-
     servers: [
       {
-        // Change localhost to your deployed Render backend
         url: "https://job-finder-app-backend-7m5k.onrender.com/api",
         description: "Production server (Render)",
       },
       {
-        // Keep localhost for local testing if you run `npm run dev`
         url: "http://localhost:5000/api",
         description: "Local development server",
       },
     ],
-
-    // ============================
-    // Add JWT Bearer Auth Support
-    // ============================
     components: {
       securitySchemes: {
         bearerAuth: {
-          type: "http",        // Security scheme type
-          scheme: "bearer",    // Bearer authentication
-          bearerFormat: "JWT", // Format of the bearer token
+          type: "http",
+          scheme: "bearer",
+          bearerFormat: "JWT",
         },
       },
     },
-
-    // Apply security globally (all routes will expect Authorization: Bearer <token>)
     security: [
       {
         bearerAuth: [],
       },
     ],
   },
-
-  // Path to your route files for annotations (e.g., JSDoc comments with @swagger/@openapi)
   apis: ["./routes/*.js"],
 };
 
-// Generate Swagger specification from options
+// Generate Swagger specification
 const swaggerSpec = swaggerJsdoc(options);
 
-// ============================
-// Function to Setup Swagger UI
-// ============================
-// Call this function in server.js / index.js to mount Swagger docs
+// Export default function for ES module import
 export default function swaggerDocs(app) {
-  // Route to access Swagger UI (e.g., https://job-finder-app-backend-7m5k.onrender.com/api-docs)
   app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
-
-  console.log(
-    "Swagger docs available at https://job-finder-app-backend-7m5k.onrender.com/api-docs"
-  );
+  console.log("Swagger docs available at https://job-finder-app-backend-7m5k.onrender.com/api-docs");
 }
