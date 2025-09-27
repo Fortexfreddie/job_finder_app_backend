@@ -3,6 +3,7 @@ import mongoose from 'mongoose';      // Import Mongoose for MongoDB
 import dotenv from 'dotenv';          // Import dotenv for environment variables
 import cors from 'cors';              // Import CORS for cross-origin requests
 import authRoutes from './routes/authRoutes.js'; // Import auth routes
+import swaggerDocs from "./swagger"; // Import swagger setup
 
 dotenv.config(); // Load environment variables from .env file
 
@@ -14,6 +15,9 @@ app.use(cors());         // Enable CORS for all routes
 
 // Routes
 app.use('/api/auth', authRoutes); // All auth-related routes start with /api/auth
+
+// Swagger Docs
+swaggerDocs(app);
 
 // Connect to MongoDB
 mongoose.connect(process.env.MONGODB_URI)
