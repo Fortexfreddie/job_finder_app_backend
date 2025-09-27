@@ -3,7 +3,7 @@ import mongoose from 'mongoose';      // Import Mongoose for MongoDB
 import dotenv from 'dotenv';          // Import dotenv for environment variables
 import cors from 'cors';              // Import CORS for cross-origin requests
 import authRoutes from './routes/authRoutes.js'; // Import auth routes
-import swaggerDocs from "./swagger"; // Import swagger setup
+import swaggerDocs from "./swagger.js"; // Import swagger setup
 
 dotenv.config(); // Load environment variables from .env file
 
